@@ -5,6 +5,9 @@
         "php": "^7.0.8",
         "ext-iconv": "*",
         "facebook/graph-sdk": "^5.6",
+        "friendsofsymfony/rest-bundle": "^2.3",
+        "jms/serializer-bundle": "^2.3",
+        "nelmio/cors-bundle": "^1.5",
         "symfony/console": "^3.4",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^3.4",
@@ -13,7 +16,9 @@
         "symfony/yaml": "^3.4"
     },
     "require-dev": {
-        "symfony/dotenv": "^3.4"
+        "symfony/dotenv": "^3.4",
+        "symfony/phpunit-bridge": "^3.4",
+        "symfony/web-server-bundle": "^3.4"
     },
     "config": {
         "preferred-install": {
@@ -56,6 +61,6 @@
             "id": "",
             "allow-contrib": false
         },
-        "symfony.id": "01C8JYPVH03FFWR78BS3VG0V0W"
+        "symfony.id": "01C8KPQ5WS70TXT5QV9TCH7S6E"
     }
 }
