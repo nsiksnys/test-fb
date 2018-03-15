@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Facebook\Facebook;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,11 +21,11 @@ class ClientController extends Controller
 	public function __construct(ContainerInterface $containerInterface)
     {
         $this->containerInterface = $containerInterface;
-        $this->logger = $containerInterface->get("monolog.logger.fb-test");
+        $this->logger = $containerInterface->get("monolog.logger.fbclient");
     }
 
 	/**
-     * @Route("/profile/facebook/{id}", name="profile")
+     * @Route("/profile/facebook/{profileId}", name="profile")
      */
 	public function getProfileAction($profileId)
 	{
@@ -84,9 +84,9 @@ class ClientController extends Controller
 	public function getConnectionParams()
 	{
 		return [
-			'app_id' => $this->containerInterface->getParameter("APP_ID");
-			'app_secret' => $this->containerInterface->getParameter("APP_SECRET");
-			'default_graph_version' => $this->containerInterface->getParameter("API_VERSION");
+			'app_id' => $this->containerInterface->getParameter("app_id"),
+			'app_secret' => $this->containerInterface->getParameter("app_secret"),
+			'default_graph_version' => $this->containerInterface->getParameter("api_version")
 		];
 	}
 }
