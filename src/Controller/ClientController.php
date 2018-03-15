@@ -3,16 +3,14 @@
 namespace App\Controller;
 
 use Facebook\Facebook;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ClientController extends Controller
+class ClientController extends FOSRestController
 {
 	protected $containerInterface;
 	protected $logger;
@@ -25,34 +23,39 @@ class ClientController extends Controller
     }
 
 	/**
-     * @Route("/profile/facebook/{profileId}", name="profile")
+     * @Get("/profile/facebook/{profileId}", name="profile")
      */
 	public function getProfileAction($profileId)
 	{
 		$this->facebookClient = $this->getConnection();
-		$accessToken = $this->getAccessToken();
 
 		try 
 		{
-			$this->facebookClient->get("/$profileId", $accessToken);
-			$user = $response->getGraphUser();
+			$this->logger->info("Requested profile $profileId");
+			$facebookResponse = $this->facebookClient->get("/$profileId");
+			$user = $facebookResponse->getGraphUser()->uncastItems();
+			return $this->json($user);
 		}
-		catch(\Facebook\Exceptions\FacebookExceptionsFacebookResponseException $e) 
+		catch(\Facebook\Exceptions\FacebookResponseException $e) 
 		{
-		  $this->logger->err('Graph error: ' . $e->getMessage());
-		  throw new HttpException(500, "Something went wrong. Please try again later.");
+		  $this->logger->err('Graph: ' . $e->getMessage());
+		  return new JsonResponse(["message" => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
 		}
-		catch(\Facebook\Exceptions\FacebookExceptionsFacebookSDKException $e) 
+		catch(\Facebook\Exceptions\FacebookSDKException $e) 
 		{
-		  $this->logger->err('Facebook SDK error: ' . $e->getMessage());
-		  throw new HttpException(500, "Something went wrong. Please try again later.");
+		  $this->logger->err('Facebook SDK: ' . $e->getMessage());
+		  return new JsonResponse(["message" => "Something went wrong. Please try again later."], Response::HTTP_INTERNAL_SERVER_ERROR);
 		}
 		catch(\Exception $e)
 		{
-			$this->logger->err('Error: ' . $e->getMessage());
-		  throw new HttpException(500, "Something went wrong. Please try again later.");
+			$this->logger->err($e->getMessage());
+		  return new JsonResponse(["message" => "Something went wrong. Please try again later."], Response::HTTP_INTERNAL_SERVER_ERROR);
 		}
-		return json_encode($user);
+		catch(\Throwable $t)
+		{
+			$this->logger->err($t->getMessage());
+		  return new JsonResponse(["message" => "Something went wrong. Please try again later."], Response::HTTP_INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	public function getAccessToken()
@@ -64,7 +67,7 @@ class ClientController extends Controller
 		catch(\Facebook\Exceptions\FacebookResponseException $e)
 		{
 			$this->logger->err("Could not get access token. ".$e->getMessage());
-			throw new AccessDeniedException("Something went wrong. Please check your credentials.");
+			return new JsonResponse(["message" => "Something went wrong. Please check your credentials."], Response::HTTP_FORBIDDEN);
 		}
 	}
 
@@ -77,7 +80,7 @@ class ClientController extends Controller
 		catch(\Facebook\Exceptions\FacebookSDKException $e)
 		{
 			$this->logger->err("Could not open connection. ".$e->getMessage());
-			throw new AccessDeniedException("Something went wrong. Please check your credentials.");
+			return new JsonResponse("Something went wrong. Please check your credentials.", Response::HTTP_FORBIDDEN);
 		}
 	}
 
@@ -86,7 +89,8 @@ class ClientController extends Controller
 		return [
 			'app_id' => $this->containerInterface->getParameter("app_id"),
 			'app_secret' => $this->containerInterface->getParameter("app_secret"),
-			'default_graph_version' => $this->containerInterface->getParameter("api_version")
+			'default_graph_version' => 'v'.$this->containerInterface->getParameter("api_version"),
+			'default_access_token' => $this->containerInterface->getParameter("app_token")
 		];
 	}
 }
