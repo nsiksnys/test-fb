@@ -6,6 +6,7 @@ parameters:
     # facebook sdk
     app_id: '%env(APP_ID)%'
     app_secret: '%env(APP_SECRET)%'
+    app_token: '%env(APP_TOKEN)%'
     api_version: '%env(API_VERSION)%'
 
 services:

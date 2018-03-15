@@ -8,6 +8,7 @@
         "friendsofsymfony/rest-bundle": "^2.3",
         "jms/serializer-bundle": "^2.3",
         "nelmio/cors-bundle": "^1.5",
+        "sensio/framework-extra-bundle": "^5.1",
         "symfony/console": "^3.4",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^3.4",
@@ -61,6 +62,6 @@
             "id": "",
             "allow-contrib": false
         },
-        "symfony.id": "01C8KPQ5WS70TXT5QV9TCH7S6E"
+        "symfony.id": "01C8MYC512Z0FS0FS3KB81CWKC"
     }
 }
