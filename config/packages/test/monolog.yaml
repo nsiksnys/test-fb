@@ -5,3 +5,9 @@ monolog:
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
             channels: ["!event"]
+        fbclient:
+            type:     stream
+            path:     "%kernel.logs_dir%/fbclient_%kernel.environment%.log"
+            level:    debug
+            channels: [fbclient]
+    channels: ["fbclient"]
