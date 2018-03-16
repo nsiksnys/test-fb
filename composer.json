@@ -17,6 +17,7 @@
         "symfony/yaml": "^3.4"
     },
     "require-dev": {
+        "symfony/browser-kit": "^3.4",
         "symfony/dotenv": "^3.4",
         "symfony/phpunit-bridge": "^3.4",
         "symfony/web-server-bundle": "^3.4"
@@ -62,6 +63,6 @@
             "id": "",
             "allow-contrib": false
         },
-        "symfony.id": "01C8MYC512Z0FS0FS3KB81CWKC"
+        "symfony.id": "01C8QNXCF3J1H0PEMR643VRTRS"
     }
 }
