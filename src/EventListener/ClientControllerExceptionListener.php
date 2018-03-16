@@ -10,8 +10,13 @@ class ClientControllerExceptionListener
 {
 	private $code = 500;
 	private $message = "Something went wrong!";
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 	
-    public function onKernelException(GetResponseForExceptionEvent $event, LoggerInterface $logger)
+    public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
 
@@ -19,7 +24,7 @@ class ClientControllerExceptionListener
             return;
         }
 		
-		$logger->err($exception->getMessage());
+		$this->logger->err($exception->getMessage());
         $code = 500;
 
         $responseData = [
