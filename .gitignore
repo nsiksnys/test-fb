@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 .env
 /public/bundles/
@@ -54,3 +53,11 @@
 
 # Embedded web-server pid file
 /.web-server-pid
+###> symfony/web-server-bundle ###
+.web-server-pid
+###< symfony/web-server-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
