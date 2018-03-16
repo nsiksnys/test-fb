@@ -3,19 +3,20 @@
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class ClientControllerTest extends WebTestCase
 {
-/*    public function testGetProfileOK()
+    public function testGetProfileOK()
     {
         $client = static::createClient();
-		$id = rand();
+		$id = $_ENV['TEST_USER_ID'];
 		
         $client->request('GET', "/profile/facebook/$id");
 
-        $this->assertEquals($client->getResponse()->isSuccessful());
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
-*/	
+	
 	public function testResponseIsJson()
 	{
 		$client = static::createClient();
@@ -33,7 +34,7 @@ class ClientControllerTest extends WebTestCase
 		
         $client->request('GET', "/profile/facebook/$id");
 
-        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $client->getResponse()->getStatusCode());
     }
 
 }

@@ -31,10 +31,10 @@ class ClientController extends FOSRestController
 
 		try 
 		{
-			$this->logger->info("Requested profile $profileId");
+			$this->logger->info("Requested profile $profileId.");
 			$facebookResponse = $this->facebookClient->get("/$profileId");
-			$user = $facebookResponse->getGraphUser()->uncastItems();
-			return $this->json($user);
+			$user = $facebookResponse->getGraphUser();
+			return new JsonResponse($user->uncastItems(), $facebookResponse->getHttpStatusCode());
 		}
 		catch(\Facebook\Exceptions\FacebookResponseException $e) 
 		{
