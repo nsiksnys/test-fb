@@ -12,8 +12,8 @@
 4. Si se quieren ejecutar los tests unitarios, crear un phpunit.xml reemplazando los valores por defecto por los propios. Los valores pueden ser los mismo que en el .env, excepto el TEST_USER_ID, que corresponde a un usuario de prueba creado por Facebook al crear la aplicación.
 5. Para probar el proyecto antes de instalar en el servidor, ejecutar `bin/console server:run`
 6. Para ejecutar los tests unitarios
-  6.1. Ejecutar `./vendor/bin/simple-phpunit` dentro de la carpeta del proyecto
-  6.2. Si el comando previo devuelve el error `[RuntimeException] The "--no-suggest" option does not exist.` , hay que abrir el ejecutable simple-phpunit con un editor de texto y editar la línea 
+  * Ejecutar `./vendor/bin/simple-phpunit` dentro de la carpeta del proyecto
+  * Si el comando previo devuelve el error `[RuntimeException] The "--no-suggest" option does not exist.` , hay que abrir el ejecutable simple-phpunit con un editor de texto y editar la línea 
  ```php
  $exit = proc_close(proc_open("$COMPOSER install --no-dev --prefer-dist --no-suggest --no-progress --ansi", array(), $p, getcwd(), null, array('bypass_shell' => true)));
  ```
@@ -21,8 +21,8 @@
  ```php
  $exit = proc_close(proc_open("$COMPOSER install --no-dev --prefer-dist --no-progress --ansi", array(), $p, getcwd(), null, array('bypass_shell' => true)));
  ```
- Y después ejecutar nuevamente `./vendor/bin/simple-phpunit`. Composer instalará las dependencias necesarias.
- Una vez que termine, `./vendor/bin/simple-phpunit`, ejecutará los tests unitarios.
+ * Y después ejecutar nuevamente `./vendor/bin/simple-phpunit`. Composer instalará las dependencias necesarias.
+ * Una vez que termine `./vendor/bin/simple-phpunit` ejecutará los tests unitarios.
  
  ## Uso
  Para pedir un perfil, la ruta es `profile/facebook/{id}`
